@@ -24,9 +24,7 @@
           <table class="table">
             <caption>
               List of the resrtaurants at
-              {{
-                inputData
-              }}
+              {{ inputData }}
             </caption>
             <thead>
               <tr>
@@ -78,6 +76,7 @@ import VueAxios from 'vue-axios'
 import axios from 'axios'
 // เรียกใช้
 Vue.use(VueAxios, axios)
+
 export default {
 /*eslint-disable */
   data () {
@@ -88,28 +87,25 @@ export default {
   },
   methods: {
     onSubmit () {
+		this.retiveData(this.inputData)
+	},
+	testFunc() {
+		console.log('Test Func')
+	},
+	retiveData(areaName){
 		//Edit Host for your computer if run on production will use configuration file (http://localhost:60009)
 		Vue.axios
-      .get('http://localhost:60009/api/Restaurant/' + this.inputData, {headers: {'Content-Type': 'application/json'}
-      }
-      )
-      .then((resp) => {
-        this.restaurantResp = resp.data.Value.results
-		// console.log("Show")
-		// console.log(resp.data.Value.results)
-      })
+			.get('http://localhost:60009/api/Restaurant/' + areaName, {headers: {'Content-Type': 'application/json'}
+			}
+			)
+			.then((resp) => {
+				this.restaurantResp = resp.data.Value.results
+			})
+		this.inputData = areaName
 	}
   },
   mounted () {
-	//Call after componet rendered
-	//Edit Host for your computer if run on production will use configuration file (http://localhost:60009)
-    Vue.axios
-      .get('http://localhost:60009/api/Restaurant/' + this.inputData, {headers: {'Content-Type': 'application/json'}
-      }
-      )
-      .then((resp) => {
-        this.restaurantResp = resp.data.Value.results
-      })
+	this.retiveData(this.inputData)
   }
 }
 </script>
